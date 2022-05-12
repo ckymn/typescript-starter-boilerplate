@@ -10,6 +10,6 @@ export default {
     db: {
         host: "localhost",
         name: "build-restapi-with-typescript",
-        dbUri: "mongodb+srv://ckymn:ckymn123.@cluster0.fzenv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        dbUri: `mongodb+srv://ckymn:ckymn123.@cluster0.fzenv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
     }
 }

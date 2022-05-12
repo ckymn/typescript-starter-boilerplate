@@ -1,7 +1,7 @@
 import express from 'express';
 import config from 'config';
-import connect from './utils/connects';
-import log from './utils/logger';
+import connect from './api/v1/utils/connects';
+import log from './api/v1/utils/logger';
 import routes from './routes';
 // import { deserializeUser } from './middleware';
 
