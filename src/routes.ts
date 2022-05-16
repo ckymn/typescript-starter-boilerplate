@@ -1,5 +1,5 @@
 import { Express, Request, Response } from 'express'
-import { createSessionHandler, getSessionHandler } from './api/v1/controllers/session.controller';
+import { createSessionHandler, deleteSessionHandler, getSessionHandler } from './api/v1/controllers/session.controller';
 import { createUserHandler } from './api/v1/controllers/user.controller';
 import { requireUser } from './api/v1/middlewares/requireUser';
 import { validate } from './api/v1/middlewares/validateResource';
@@ -14,6 +14,7 @@ const routes = (app: Express) => {
     app.post("/api/users", validate(createUserValidation), createUserHandler)
     app.post("/api/sessions", validate(createSessionValidation), createSessionHandler)
     app.get("/api/sessions", requireUser, getSessionHandler)
+    app.delete("/api/sessions", requireUser, deleteSessionHandler)
 
 }
 
