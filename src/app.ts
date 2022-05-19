@@ -1,10 +1,10 @@
-import express from 'express';
-import config from 'config';
-import dotenv from 'dotenv';
-import connect from './api/v1/utils/connects';
-import log from './api/v1/utils/logger';
-import routes from './routes';
-import { deserializeUser } from './api/v1/middlewares/deserializeUser';
+import express from "express";
+import config from "config";
+import dotenv from "dotenv";
+import connect from "./api/v1/utils/connects";
+import log from "./api/v1/utils/logger";
+import routes from "./routes";
+import { deserializeUser } from "./api/v1/middlewares/deserializeUser";
 
 const app = express();
 dotenv.config();
@@ -21,4 +21,4 @@ app.listen(port, host, async () => {
     await connect()
 
     routes(app);
-})
+});
