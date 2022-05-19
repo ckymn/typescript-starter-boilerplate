@@ -1,7 +1,7 @@
 import { FilterQuery, UpdateQuery, DocumentDefinition, QueryOptions } from 'mongoose';
 import ProductModel, { ProductDocument } from '../models/product.model'
 
-export const createProduct = async (input: DocumentDefinition<Omit<ProductDocument, "createdAt" | "updatedAt">>) => {
+export const createProduct = async (input: DocumentDefinition<Omit<ProductDocument, "createdAt" | "updatedAt" | "productId">>) => {
     try {
         const product = await ProductModel.create(input);
 

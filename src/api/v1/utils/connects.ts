@@ -4,7 +4,7 @@ import log from './logger';
 
 const connectDB = async () => {
     try {
-        let dbUri = config.get("db.dbUri") as String;
+        let dbUri = config.get<string>("db.dbUri");
 
         await mongoose.connect(dbUri)
             .then((response) => {
