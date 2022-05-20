@@ -17,7 +17,7 @@ export const createProductHandler = async (req: Request<{}, {}, createProductInp
     }
 }
 
-export const findProductHandler = async (req: Request<updateProductInput['params'], {}, updateProductInput['body']>, res: Response) => {
+export const findProductHandler = async (req: Request<updateProductInput["params"]>, res: Response) => {
     try {
         const { productId } = req.params
 
@@ -27,14 +27,14 @@ export const findProductHandler = async (req: Request<updateProductInput['params
             return res.status(404).send({ message: "Product not found" })
         }
 
-        return res.status(200).send(product);
+        return res.send(product);
     } catch (error: any) {
         log.error(error);
         return res.status(400).send(error.message)
     }
 }
 
-export const updateProductHandler = async (req: Request, res: Response) => {
+export const updateProductHandler = async (req: Request<updateProductInput["params"]>, res: Response) => {
     try {
         const { productId } = req.params
         const userId = res.locals.user._id;
