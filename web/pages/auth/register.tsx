@@ -1,39 +1,44 @@
+import { useState } from "react"
 import { useForm } from 'react-hook-form';
-import { object, string } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { object, string, TypeOf } from 'zod';
+import axios from 'axios';
+import { useRouter } from "next/router";
 
 export const createUserValidation = object({
-    name: string({
-        required_error: "Name is required",
-    }),
-    password: string({
-        required_error: "Password is required",
-    }).min(6, "Password too shor - should be 6 chars minimum"),
-    passwordConfirmation: string({
-        required_error: "Password Confirmation is required",
-    }),
-    email: string({
-        required_error: "Email is required",
-    }).email("Not a valid email"),
-
+    name: string().nonempty({ message: "Name is required" }),
+    password: string().nonempty({ message: "Password is required" }).min(6, "Password too shor - should be 6 chars minimum"),
+    passwordConfirmation: string().nonempty({ message: "PasswordConfirmation is required" }),
+    email: string().nonempty({ message: "Email is required" }).email("Not a valid email"),
 }).refine((data) => data.password === data.passwordConfirmation, {
     message: "Password do not match",
     path: ["passwordConfirmation"],
 })
 
+type CreateUserInput = TypeOf<typeof createUserValidation>;
+
 function RegisterPage() {
-    const { register, formState: { errors }, handleSubmit } = useForm({
+    const router = useRouter();
+    const { registerError, setRegisterError } = useState(null);
+
+    const { register, formState: { errors }, handleSubmit } = useForm<CreateUserInput>({
         resolver: zodResolver(createUserValidation)
     });
 
-    function onSubmit(values) {
-        console.log({ values })
+    async function onSubmit(values: CreateUserInput) {
+        try {
+            await axios.post(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/users`, values)
+            router.push("/")
+        } catch (error: any) {
+            setRegisterError(error.message)
+        }
     }
 
     console.log({ errors });
 
     return (
         <>
+            <p>{registerError}</p>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='form-element'>
                     <label htmlFor='email'>Email</label>
