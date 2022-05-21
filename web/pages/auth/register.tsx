@@ -19,7 +19,7 @@ type CreateUserInput = TypeOf<typeof createUserValidation>;
 
 function RegisterPage() {
     const router = useRouter();
-    const { registerError, setRegisterError } = useState(null);
+    const [registerError, setRegisterError] = useState(null);
 
     const { register, formState: { errors }, handleSubmit } = useForm<CreateUserInput>({
         resolver: zodResolver(createUserValidation)
@@ -27,8 +27,12 @@ function RegisterPage() {
 
     async function onSubmit(values: CreateUserInput) {
         try {
-            await axios.post(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/users`, values)
-            router.push("/")
+            const result = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/users`, values)
+            if(result.data.statusCode === 409){
+                setRegisterError(result.data.message);
+            }else{
+                router.push("/")
+            }
         } catch (error: any) {
             setRegisterError(error.message)
         }

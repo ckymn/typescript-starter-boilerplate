@@ -5,9 +5,13 @@ import log from '../utils/logger';
 
 export const createUser = async (input: DocumentDefinition<Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">>) => {
     try {
-        const user = await UserModel.create(input);
-
-        return omit(user.toJSON(), "password");
+        const user = await UserModel.findOne({ email: input.email }).lean();
+        if (user) {
+            return false
+        } else {
+            const user = await UserModel.create(input);
+            return omit(user.toJSON(), "password");
+        }
     } catch (error: any) {
         throw new Error(error);
     }
