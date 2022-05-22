@@ -5,6 +5,7 @@ import connect from "./api/v1/utils/connects";
 import log from "./api/v1/utils/logger";
 import routes from "./routes";
 import { createServer } from './api/v1/utils/server';
+import swagger from './api/v1/utils/swagger';
 
 const port = config.get("app.port") as number;
 const host = config.get("db.host") as string;
@@ -17,4 +18,6 @@ app.listen(port, host, async () => {
     await connect()
 
     routes(app);
+
+    swagger(app, port);
 });

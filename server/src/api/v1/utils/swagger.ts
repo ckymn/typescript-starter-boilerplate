@@ -8,7 +8,7 @@ const options: swaggerJsdoc.Options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            version: "1.0.0",
+            version,
             title: "TYPESCRIPT STARTER BOILERPLATE",
         },
         components: {
@@ -26,10 +26,11 @@ const options: swaggerJsdoc.Options = {
             }
         ]
     },
-    apis: ["../../../routes.ts", "../", "../validations/*.ts"],
+    apis: ["./src/routes.ts", "./src/validations/*.ts"],
 }
 
 const swaggerSpec = swaggerJsdoc(options);
+
 
 function swaggerDocs(app: Express, port: number) {
     // Swagger Page
@@ -43,3 +44,5 @@ function swaggerDocs(app: Express, port: number) {
 
     log.info(`Docs available at http://localhost:${port}/docs`)
 }
+
+export default swaggerDocs
