@@ -9,7 +9,7 @@ import { createSessionValidation } from './api/v1/validations/session.validation
 import { createUserValidation } from './api/v1/validations/user.validation';
 
 const routes = (app: Express) => {
-    app.get("/", (req: Request, res: Response) => { res.sendStatus(200) });
+    app.get("/home", (req: Request, res: Response) => { res.sendStatus(200) });
     app.get("/api/me", requireUser, findUserHandler)
     app.post("/api/users", validate(createUserValidation), createUserHandler)
     app.post("/api/sessions", validate(createSessionValidation), createSessionHandler)

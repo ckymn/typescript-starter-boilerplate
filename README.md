@@ -1,3 +1,10 @@
+# What technologies did I use in this Project ?
+
+    1. TypeScript for language
+    2. Node.js for runtime envoirment
+    3. Next.js for frontend
+    4. Swagger for API documentation
+
 ## Web
 
 - web (React.js website with Next.js)
