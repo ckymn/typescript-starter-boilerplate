@@ -20,7 +20,4 @@ export const createUserValidation = object({
     }),
 });
 
-export type CreateUserInput = Omit<
-    TypeOf<typeof createUserValidation>,
-    "body.passwordConfirmation"
->;
+export type CreateUserInput = Omit<TypeOf<typeof createUserValidation>, "body.passwordConfirmation">;

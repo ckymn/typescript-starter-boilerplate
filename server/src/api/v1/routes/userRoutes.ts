@@ -8,7 +8,7 @@ import { validate } from '../middlewares/validateResource';
 
 
 const userRoutes = (app: Express) => {
-    app.get("/api/me", requireUser, findUserHandler)
+    app.get("/api/v1/me", requireUser, findUserHandler)
 
     /**
  * @openapi
@@ -76,7 +76,7 @@ const userRoutes = (app: Express) => {
      *      '400':
      *        description: Bad request
      */
-    app.post("/api/users", validate(createUserValidation), createUserHandler)
+    app.post("/api/v1/users", validate(createUserValidation), createUserHandler)
     app.post("/api/sessions", validate(createSessionValidation), createSessionHandler)
     app.get("/api/sessions", requireUser, getSessionHandler)
     app.delete("/api/sessions", requireUser, deleteSessionHandler)

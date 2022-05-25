@@ -1,4 +1,4 @@
-import { DocumentDefinition, FilterQuery } from 'mongoose';
+import { DocumentDefinition, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import { omit } from 'lodash';
 import UserModel, { UserDocument } from '../models/user.model';
 import log from '../utils/logger';
@@ -12,6 +12,36 @@ export const createUser = async (input: DocumentDefinition<Omit<UserDocument, "c
             const user = await UserModel.create(input);
             return omit(user.toJSON(), "password");
         }
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
+
+export const findUser = async (query: FilterQuery<UserDocument>) => {
+    try {
+        const user = await UserModel.findOne(query).lean();
+
+        return user;
+    } catch (error: any) {
+        log.error(error.message)
+    }
+}
+
+export const updateUser = async (query: FilterQuery<UserDocument>, update: UpdateQuery<UserDocument>, options: QueryOptions) => {
+    try {
+        const user = await UserModel.findOneAndUpdate(query, update, options);
+
+        return user;
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
+
+export const deleteUser = async (query: FilterQuery<UserDocument>) => {
+    try {
+        const user = await UserModel.deleteOne(query);
+
+        return user;
     } catch (error: any) {
         throw new Error(error);
     }
@@ -32,15 +62,5 @@ export const validatePassword = async ({ email, password }: { email: string, pas
         }
     } catch (error: any) {
         throw new Error(error);
-    }
-}
-
-export const findUser = async (query: FilterQuery<UserDocument>) => {
-    try {
-        const user = await UserModel.findOne(query).lean();
-
-        return user;
-    } catch (error: any) {
-        log.error(error.message)
     }
 }
