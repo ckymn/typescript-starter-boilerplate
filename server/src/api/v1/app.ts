@@ -1,11 +1,11 @@
 import config from "config";
 import dotenv from "dotenv";
 dotenv.config();
-import connect from "./api/v1/utils/connects";
-import log from "./api/v1/utils/logger";
-import routes from "./routes";
-import { createServer } from './api/v1/utils/server';
-import swagger from './api/v1/utils/swagger';
+import connect from "./utils/connects";
+import log from "./utils/logger";
+import routes from "./routes/routes";
+import { createServer } from './utils/server';
+import swagger from './utils/swagger';
 
 const port = config.get("app.port") as number;
 const host = config.get("db.host") as string;

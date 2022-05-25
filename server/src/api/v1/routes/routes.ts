@@ -1,14 +1,15 @@
 import { Express, Request, Response } from 'express'
-import { createProductHandler, deleteProductHandler, findProductHandler, updateProductHandler } from './api/v1/controllers/product.controller';
-import { createSessionHandler, deleteSessionHandler, getSessionHandler } from './api/v1/controllers/session.controller';
-import { createUserHandler, findUserHandler } from './api/v1/controllers/user.controller';
-import { requireUser } from './api/v1/middlewares/requireUser';
-import { validate } from './api/v1/middlewares/validateResource';
-import { createProductValidation, deleteProductValidation, findProductValidation, updateProductValidation } from './api/v1/validations/product.validation';
-import { createSessionValidation } from './api/v1/validations/session.validation';
-import { createUserValidation } from './api/v1/validations/user.validation';
+import { createProductHandler, deleteProductHandler, findProductHandler, updateProductHandler } from '../controllers/product.controller';
+import { createSessionHandler, deleteSessionHandler, getSessionHandler } from '../controllers/session.controller';
+import { createUserHandler, findUserHandler } from '../controllers/user.controller';
+import { requireUser } from '../middlewares/requireUser';
+import { validate } from '../middlewares/validateResource';
+import { createProductValidation, deleteProductValidation, findProductValidation, updateProductValidation } from '../validations/product.validation';
+import { createSessionValidation } from '../validations/session.validation';
+import { createUserValidation } from '../validations/user.validation';
 
 const routes = (app: Express) => {
+
     /**
    * @openapi
    * /home:
@@ -95,8 +96,6 @@ const routes = (app: Express) => {
     app.get("/api/sessions", requireUser, getSessionHandler)
     app.delete("/api/sessions", requireUser, deleteSessionHandler)
     app.post("/api/products", [requireUser, validate(createProductValidation)], createProductHandler);
-
-
 
     /**
      * @openapi

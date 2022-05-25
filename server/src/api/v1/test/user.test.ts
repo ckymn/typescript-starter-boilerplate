@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import supertest from "supertest";
-import { createServer } from "../src/api/v1/utils/server";
-import * as UserService from "../src/api/v1/services/user.service";
-import * as SessionService from "../src/api/v1/services/session.service";
-import { createSessionHandler } from "../src/api/v1/controllers/session.controller";
+import { createServer } from "../utils/server";
+import * as UserService from "../services/user.service";
+import * as SessionService from "../services/session.service";
+import { createSessionHandler } from "../controllers/session.controller";
 
 const app = createServer();
 
