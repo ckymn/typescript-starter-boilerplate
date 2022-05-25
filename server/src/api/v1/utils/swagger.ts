@@ -10,7 +10,13 @@ const options: swaggerJsdoc.Options = {
         info: {
             version,
             title: "TYPESCRIPT STARTER BOILERPLATE",
+            description: "Express with Typescript Library API"
         },
+        servers: [
+            {
+                url: "http://localhost:1337"
+            }
+        ],
         components: {
             securitySchemas: {
                 bearerAuth: {
