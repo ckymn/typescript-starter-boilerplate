@@ -7,7 +7,10 @@ export const createProduct = async (input: DocumentDefinition<Omit<ProductDocume
 
         return product;
     } catch (error: any) {
-        throw new Error(error);
+        throw {
+            status: error?.status || 500,
+            message: error?.message || error
+        }
     }
 }
 
@@ -15,9 +18,18 @@ export const findProduct = async (query: FilterQuery<ProductDocument>, options: 
     try {
         const product = await ProductModel.findOne(query, {}, options);
 
+        if (!product) {
+            throw {
+                status: 400,
+                message: `Can't find product with the id ${query}`
+            }
+        }
         return product;
     } catch (error: any) {
-        throw new Error(error);
+        throw {
+            status: error?.status || 500,
+            message: error?.messaage || error
+        }
     }
 }
 
@@ -25,9 +37,18 @@ export const updateProduct = async (query: FilterQuery<ProductDocument>, update:
     try {
         const product = await ProductModel.findOneAndUpdate(query, update, options);
 
+        if (!product) {
+            throw {
+                status: 400,
+                message: `Can't find product with the id ${query}`
+            }
+        }
         return product;
     } catch (error: any) {
-        throw new Error(error);
+        throw {
+            status: error?.status || 500,
+            message: error?.message || error
+        }
     }
 }
 
@@ -35,9 +56,18 @@ export const deleteProduct = async (query: FilterQuery<ProductDocument>) => {
     try {
         const product = await ProductModel.deleteOne(query);
 
+        if (!product) {
+            throw {
+                status: 400,
+                message: `Can't find product the id ${query}`
+            }
+        }
         return product;
     } catch (error: any) {
-        throw new Error(error);
+        throw {
+            status: error?.status || 500,
+            message: error?.message || error
+        }
     }
 }
 

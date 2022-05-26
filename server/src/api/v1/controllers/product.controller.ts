@@ -51,21 +51,6 @@ export const updateProductHandler = async (req: Request<updateProductInput["para
         })
     }
     try {
-        const product = await findProduct({ productId }); // call product service
-
-        if (!product) {
-            return res.status(404).send({
-                status: "FAILED",
-                data: { error: "Product Not found" }
-            })
-        }
-        if (String(product.user) !== userId) {
-            return res.status(404).send({
-                status: "FAILED",
-                data: { error: "Product dont match own user" }
-            })
-        }
-
         const updatedProduct = await updateProduct({ productId }, body, { new: true });
 
         return res.send({
@@ -91,16 +76,6 @@ export const deleteProductHandler = async (req: Request, res: Response) => {
         })
     }
     try {
-        const product = await findProduct({ productId });
-
-        if (!product) {
-            return res.status(404).send({ message: "Product Not Found" });
-        }
-
-        if (String(product.user) !== userId) {
-            return res.status(403).send({ message: "Product dont match of own product" });
-        }
-
         await deleteProduct({ productId });
 
         return res.status(204).send({ status: "OK" });
