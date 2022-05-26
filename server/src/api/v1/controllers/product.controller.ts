@@ -6,6 +6,7 @@ export const createProductHandler = async (req: Request<{}, {}, createProductInp
     try {
         const { body } = req;
         const userId = res.locals.user._id;
+
         const product = await createProduct({ ...body, user: userId }) // call product service
 
         return res.send({ status: "OK", data: product });
@@ -53,10 +54,16 @@ export const updateProductHandler = async (req: Request<updateProductInput["para
         const product = await findProduct({ productId }); // call product service
 
         if (!product) {
-            return res.status(404).send({ message: "Product not found" })
+            return res.status(404).send({
+                status: "FAILED",
+                data: { error: "Product Not found" }
+            })
         }
         if (String(product.user) !== userId) {
-            return res.status(404).send({ message: "Product dont match own user" })
+            return res.status(404).send({
+                status: "FAILED",
+                data: { error: "Product dont match own user" }
+            })
         }
 
         const updatedProduct = await updateProduct({ productId }, body, { new: true });

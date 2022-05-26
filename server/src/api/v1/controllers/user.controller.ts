@@ -6,57 +6,78 @@ import { CreateUserInput } from '../validations/user.validation';
 
 export const createUserHandler = async (req: Request<{}, {}, CreateUserInput['body']>, res: Response) => {
     try {
-        const user = await createUser(req.body)  // call user service
-        if (!user) {
-            return res.status(200).send({ statusCode: 409, message: "User Already Exist! . Try Again" })
-        } else {
-            return res.status(200).send(omit(user, "password"));
-        }
+        const { body } = req;
+
+        const user = await createUser({ ...body })  // call user service
+
+        return res.send({ status: "OK", data: omit(user, "password") });
     } catch (error: any) {
-        log.error(error);
-        return res.status(409).send(error.message);
+        return res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        });
     }
 };
 
 export const findUserHandler = async (req: Request, res: Response) => {
-    return res.send(res.locals.user);
+    try {
+        return res.send({ status: "OK", data: res.locals.user });
+    } catch (error: any) {
+        return res.status(error?.status).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        })
+    }
 }
 
 export const updateUserHandler = async (req: Request, res: Response) => {
-    try {
-        const userId = res.locals.user._id;
-        const { body } = req;
+    const userId = res.locals.user._id;
+    const { body } = req;
 
+    try {
         const user = await findUser({ _id: userId });
 
         if (!user) {
-            return res.status(404).send({ message: "User not found" });
+            return res.status(404).send({
+                status: "FAILED",
+                data: { error: "User not found" }
+            });
         }
 
         const updatedUser = await updateUser({ _id: userId }, body, { new: true })
 
-        return res.status(200).send(updatedUser);
+        return res.send({
+            status: "OK",
+            data: updatedUser
+        });
     } catch (error: any) {
-        log.error(error);
-        return res.status(400).send(error.message);
+        return res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        });
     }
 }
 
 export const deleteUserHandler = async (req: Request, res: Response) => {
-    try {
-        const userId = res.locals.user._id;
+    const userId = res.locals.user._id;
 
+    try {
         const user = await findUser({ _id: userId });
 
         if (!user) {
-            return res.status(404).send({ message: "User Not Found" });
+            return res.status(404).send({
+                status: "FAILED",
+                data: { error: "User Not Found" }
+            });
         }
 
         await deleteUser({ _id: userId });
 
-        return res.status(200).send({ message: "User deleted" })
+        return res.send({ status: "OK" })
     } catch (error: any) {
-        log.error(error)
-        return res.status(400).send(error.message);
+        return res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        })
     }
 }
