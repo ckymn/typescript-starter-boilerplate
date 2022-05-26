@@ -41,7 +41,3 @@ export const deleteProduct = async (query: FilterQuery<ProductDocument>) => {
     }
 }
 
-function DocumentDefinition(input: string, DocumentDefinition: any) {
-    throw new Error('Function not implemented.');
-}
-

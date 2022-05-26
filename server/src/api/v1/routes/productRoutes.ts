@@ -18,7 +18,7 @@ const productRoutes = (app: Express) => {
    *       '200':
    *         description: App is up and running
    */
-    app.get("/home", (req: Request, res: Response) => { res.sendStatus(200) });
+    app.get("/api/v1/home", (req: Request, res: Response) => { res.sendStatus(200) });
 
     /**
      * @openapi
@@ -73,10 +73,10 @@ const productRoutes = (app: Express) => {
    *       '404':
    *         description: Product not found
    */
-    app.post("/api/products", [requireUser, validate(createProductValidation)], createProductHandler);
-    app.put("/api/products/:productId", [requireUser, validate(updateProductValidation)], updateProductHandler);
-    app.get("/api/products/:productId", validate(findProductValidation), findProductHandler);
-    app.delete("/api/products/:productId", [requireUser, validate(deleteProductValidation)], deleteProductHandler);
+    app.post("/api/v1/products", [requireUser, validate(createProductValidation)], createProductHandler);
+    app.put("/api/v1/products/:productId", [requireUser, validate(updateProductValidation)], updateProductHandler);
+    app.get("/api/v1/products/:productId", validate(findProductValidation), findProductHandler);
+    app.delete("/api/v1/products/:productId", [requireUser, validate(deleteProductValidation)], deleteProductHandler);
 
 }
 

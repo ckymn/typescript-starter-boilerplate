@@ -77,9 +77,9 @@ const userRoutes = (app: Express) => {
      *        description: Bad request
      */
     app.post("/api/v1/users", validate(createUserValidation), createUserHandler)
-    app.post("/api/sessions", validate(createSessionValidation), createSessionHandler)
-    app.get("/api/sessions", requireUser, getSessionHandler)
-    app.delete("/api/sessions", requireUser, deleteSessionHandler)
+    app.post("/api/v1/sessions", validate(createSessionValidation), createSessionHandler)
+    app.get("/api/v1/sessions", requireUser, getSessionHandler)
+    app.delete("/api/v1/sessions", requireUser, deleteSessionHandler)
 }
 
 export default userRoutes;
