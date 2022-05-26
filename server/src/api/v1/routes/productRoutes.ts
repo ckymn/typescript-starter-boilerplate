@@ -15,8 +15,31 @@ const productRoutes = (app: Express) => {
    *     summary: Home page
    *     description: Respons if the app is up and running
    *     responses:
-   *       '200':
-   *         description: App is up and running
+   *       200:
+   *         description: OK
+   *         content: 
+   *            application/json:
+   *              schema:
+   *                type: object
+   *                properties: 
+   *                  status: 
+   *                    type: string
+   *                    example: OK
+   *                  data: 
+   *                    type: array
+   *       5XX:
+   *         description: FAILED
+   *         content: 
+   *            application/json:
+   *              schema:
+   *                type: object
+   *                properties:     
+   *                   status:
+   *                     type: string
+   *                     example: FAILED
+   *                   data: 
+   *                     type: string
+   *                     example: "Some error message"
    */
     app.get("/api/v1/home", (req: Request, res: Response) => { res.sendStatus(200) });
 
