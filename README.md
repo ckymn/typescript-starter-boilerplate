@@ -4,6 +4,7 @@
     2. Node.js for runtime envoirment
     3. Next.js for frontend
     4. Swagger for API documentation
+    5. Docker && DigitalOcean for Deployment
 
 ## Web
 
