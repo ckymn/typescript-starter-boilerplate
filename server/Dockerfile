@@ -1,4 +1,5 @@
-FROM node:14-slim
+FROM node:16.14.2-alpine
 COPY . /tmp
 WORKDIR /tmp
-ENTRYPOINT [ "node", "npm run dev" ]
+RUN npm install
+CMD [ "node", "/src/api/app.ts" ]
