@@ -1,5 +1,9 @@
 FROM node:16.14.2-alpine
-WORKDIR /opt/restapi-typescript
-COPY . .
-RUN npm install && npm run build
-CMD [ "node" ,"build/src/app.js" ]
+MAINTAINER ckymn
+WORKDIR /app
+COPY package.json .
+RUN rm -rf build
+RUN npm install
+COPY . ./
+RUN npm run build
+CMD [ "node" ,"build/src/api/app.js" ]
