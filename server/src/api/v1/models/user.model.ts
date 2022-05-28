@@ -24,7 +24,7 @@ userSchema.pre("save", async function (next) {
     if (!user.isModified("password")) {
         return next();
     } else {
-        const salt = await bcrypt.genSalt(config.get<number>('app.saltWorkFactor'));
+        const salt = await bcrypt.genSalt(Number(process.env.saltWorkFactory));
         const hash = await bcrypt.hashSync(user.password, salt);
 
         user.password = hash;

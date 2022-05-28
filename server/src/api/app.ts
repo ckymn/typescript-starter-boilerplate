@@ -7,6 +7,7 @@ import routes from "./v1/routes/index";
 import { createServer } from './v1/utils/server';
 import swagger from './v1/utils/swagger';
 
+
 const port = config.get("app.port") as number;
 const host = config.get("db.host") as string;
 

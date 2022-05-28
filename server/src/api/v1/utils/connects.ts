@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
-import config from 'config';
 import log from './logger';
 
 const connectDB = async () => {
     try {
-        let dbUri = config.get<string>("db.dbUri");
+        let dbUri = process.env.dbUri
 
-        await mongoose.connect(dbUri)
+        await mongoose.connect(String(dbUri))
             .then((response) => {
                 log.info(`MongoDB connection name : ${response.connection.name} on ${response.connection.port}`)
             })

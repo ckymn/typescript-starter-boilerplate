@@ -21,6 +21,8 @@ export const createUserHandler = async (req: Request<{}, {}, CreateUserInput['bo
 
 export const findUserHandler = async (req: Request, res: Response) => {
     try {
+        console.log(process.env.PUBLIC_KEY)
+
         return res.send({ status: "OK", data: res.locals.user });
     } catch (error: any) {
         return res.status(error?.status).send({

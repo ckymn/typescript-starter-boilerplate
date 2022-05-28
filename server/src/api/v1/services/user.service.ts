@@ -1,7 +1,6 @@
 import { DocumentDefinition, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import { omit } from 'lodash';
 import UserModel, { UserDocument } from '../models/user.model';
-import log from '../utils/logger';
 
 export const createUser = async (input: DocumentDefinition<Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">>) => {
     try {

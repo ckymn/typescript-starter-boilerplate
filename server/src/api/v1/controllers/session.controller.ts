@@ -3,8 +3,6 @@ import config from 'config';
 import { createSession, findSession, updateSession } from '../services/session.service';
 import { validatePassword } from '../services/user.service';
 import { signJwt } from '../utils/jwt.utils';
-import log from '../utils/logger';
-
 export const createSessionHandler = async (req: Request, res: Response) => {
     try {
         // validate the user's password
@@ -16,17 +14,22 @@ export const createSessionHandler = async (req: Request, res: Response) => {
         // create a session
         const session = await createSession(user._id, req.get("user-agent") || "");
 
+        console.log("session -> ", session);
+
         // create an access token
         const accessToken = signJwt(
             { ...user, session: session._id },
             { expiresIn: config.get("app.accessTokenTtl") } // 15 minutes
         )
 
+        console.log("accessToken -> ", accessToken);
+
         // create a refresh token
         const refreshToken = signJwt(
             { ...user, session: session._id },
             { expiresIn: config.get("app.refreshTokenTtl") } // 1 year
         )
+
         // return access && refresh tokens
         res.cookie("accessToken", accessToken, {
             maxAge: 900000,//15 mins
@@ -48,8 +51,10 @@ export const createSessionHandler = async (req: Request, res: Response) => {
 
         return res.send({ accessToken, refreshToken })
     } catch (error: any) {
-        log.error(error);
-        return res.status(409).send(error.message);
+        return res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        })
     }
 };
 
@@ -60,8 +65,11 @@ export const getSessionHandler = async (req: Request, res: Response) => {
         const sessions = await findSession({ user: userId, valid: true })
 
         return res.status(200).send(sessions)
-    } catch (error) {
-        log.error(error)
+    } catch (error: any) {
+        return res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        })
     }
 }
 
@@ -78,6 +86,9 @@ export const deleteSessionHandler = async (req: Request, res: Response) => {
             refreshToken: null
         })
     } catch (error: any) {
-        log.error(error.message);
+        return res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error }
+        })
     }
 }
