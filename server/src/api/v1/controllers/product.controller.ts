@@ -6,7 +6,6 @@ export const createProductHandler = async (req: Request<{}, {}, createProductInp
     try {
         const { body } = req;
         const userId = res.locals.user._id;
-
         const product = await createProduct({ ...body, user: userId }) // call product service
 
         return res.send({ status: "OK", data: product });

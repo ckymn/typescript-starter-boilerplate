@@ -46,7 +46,6 @@ const userRoutes = (app: Express) => {
  *        updatedAt:
  *          type: string
  */
-
     /**
      * @openapi
      * '/api/users':

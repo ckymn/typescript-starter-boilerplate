@@ -5,9 +5,17 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-    build:
+    build: # custom image oldugu icin. Dockerfile build edilecek.
         context: ./ 
-
+    ports:
+      - 3000:1337
+  
+  mongodb:
+    image: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - restapi-data:/data/db
   caddy:
     image: caddy/caddy:2.2.1-alpine
     container_name: caddy-service
@@ -24,3 +32,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  restapi-data:

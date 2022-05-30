@@ -4,6 +4,6 @@ WORKDIR /app
 COPY package.json .
 RUN rm -rf build
 RUN npm install
-COPY . ./
+COPY . .
 RUN npm run build
-CMD [ "node" ,"build/src/api/app.js" ]
+CMD [ "node" ,"./build/src/api/app.js" ]
